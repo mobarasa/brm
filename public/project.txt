@@ -1,0 +1,53 @@
+Users
+    - Create
+    - Read all users data
+    - Update
+    - Delete
+    - Profile (Update both user profile and Password)
+
+Role
+    - Create
+    - Read all roles
+    - Update
+    - Delete (But not Admin role)
+
+Permission
+    - Read all permission
+
+Post
+    - Create
+    - Read all post
+    - Update
+    - Delete
+
+
+Event:
+
+id,
+userid, -
+title, -
+slug, -
+category
+location, -
+published, -
+event image, -
+startdate, -
+enddate, -
+content, -
+
+
+Sermon:
+
+id, -
+userid -
+title, -
+slug -
+Preacher -
+category -
+location -
+main bible passage -
+date preached -
+published -
+cover image -
+media link -
+content, -
