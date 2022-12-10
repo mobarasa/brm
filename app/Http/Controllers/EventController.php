@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
@@ -9,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Event;
+use Image;
 
 class EventController extends Controller
 {
@@ -19,6 +22,8 @@ class EventController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('event_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $events = Event::latest()->with('category')->paginate(12);
 
         return view('admin.events.index', compact('events'));
@@ -31,6 +36,8 @@ class EventController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('event_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.events.create', compact('categories'));
@@ -44,10 +51,16 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        // dd($request);
         if ($request->has('upload_image')) {
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/events', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/events', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/events/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $post = auth()->user()->events()->create([
@@ -76,6 +89,8 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        abort_if(Gate::denies('event_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.events.show', compact('event', 'categories'));
@@ -89,6 +104,8 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        abort_if(Gate::denies('event_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.events.edit', compact('event', 'categories'));
@@ -104,10 +121,17 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/uploads/events/' . $event->upload_image);
+            Storage::delete('public/events/' . $event->upload_image);
 
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/events', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/events', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/events/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $event->update([
@@ -136,8 +160,10 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        abort_if(Gate::denies('event_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($event->upload_image) {
-            Storage::delete('public/uploads/events/' . $event->upload_image);
+            Storage::delete('public/events/' . $event->upload_image);
             $event->upload_image = null;
         }
 

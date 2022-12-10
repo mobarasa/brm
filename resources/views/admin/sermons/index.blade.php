@@ -5,7 +5,9 @@
     <div class="border-table">
         <div class="table-head clearfix">
             <p class="pull-left">Sermon Management</p>
+            @can('sermon_create')
             <a href="{{ route('sermons.create') }}" class="btn sm-custom-btn pull-right">Add new</a>
+            @endcan
         </div>
         <!-- end of table-head -->
         @if(count($errors) > 0)
@@ -45,15 +47,19 @@
                             @endif
                         </td>
                         <td class="action-center action-td">
+                            @can('sermon_edit')
                             <a class="btn btn-xs btn-info" href="{{ route('sermons.edit', $sermon->id) }}">
                                 Edit
                             </a>
+                            @endcan
+                            @can('sermon_delete')
                             <form action="{{ route('sermons.destroy', $sermon->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                               <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                          </form>
+                            </form>
+                            @endcan
                         </td>
                     </tr>
                     @empty
@@ -68,7 +74,7 @@
         <!-- end of table-responsive -->
     </div>
     <!-- end of border-table -->
-    {!! $sermons->links() !!}
+    {!! $sermons->links('layouts.partials.backpagination') !!}
     <!-- end of pagination -->
 </section>
 @endsection

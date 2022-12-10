@@ -38,11 +38,7 @@
             @forelse ($events as $event)
             <div class="events_item">
                 <div class="events_item_image">
-                @if ($event->upload_image)
-                    <img src="{{ asset('storage/uploads/events/' . $event->upload_image) }}" class="img-responsive" />
-                @else
-                    <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" />
-                @endif
+                <img src="{{ asset($event->image_exist ? 'storage/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt=""  style="height:260px;">
                 </div>
                 <div class="events_item_content d-flex flex-row align-items-start justfy-content-start">
                     <div class="event_date">

@@ -19,7 +19,6 @@ class PermissionSeeder extends Seeder
         Artisan::call('cache:clear');
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Permission::create(['name' => 'users_manage']);
         $permissions = [
             [
                 'id'    => '1',
@@ -88,37 +87,37 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'id'    => '14',
-                'name' => 'user_show',
-                'guard_name' => 'web',
-            ],
-            [
-                'id'    => '15',
                 'name' => 'user_delete',
                 'guard_name' => 'web',
             ],
             [
-                'id'    => '16',
+                'id'    => '15',
                 'name' => 'user_access',
                 'guard_name' => 'web',
             ],
             [
-                'id'    => '17',
+                'id'    => '16',
                 'name' => 'post_create',
                 'guard_name' => 'web',
             ],
             [
-                'id'    => '18',
+                'id'    => '17',
                 'name' => 'post_edit',
                 'guard_name' => 'web',
             ],
             [
-                'id'    => '19',
+                'id'    => '18',
                 'name' => 'post_show',
                 'guard_name' => 'web',
             ],
             [
-                'id'    => '20',
+                'id'    => '19',
                 'name' => 'post_delete',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '20',
+                'name' => 'post_publish',
                 'guard_name' => 'web',
             ],
             [
@@ -148,32 +147,142 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'id'    => '26',
-                'name' => 'event_access',
+                'name' => 'event_publish',
                 'guard_name' => 'web',
             ],
             [
                 'id'    => '27',
-                'name' => 'sermon_create',
+                'name' => 'event_access',
                 'guard_name' => 'web',
             ],
             [
                 'id'    => '28',
-                'name' => 'sermon_edit',
+                'name' => 'sermon_create',
                 'guard_name' => 'web',
             ],
             [
                 'id'    => '29',
-                'name' => 'sermon_show',
+                'name' => 'sermon_edit',
                 'guard_name' => 'web',
             ],
             [
                 'id'    => '30',
-                'name' => 'sermon_delete',
+                'name' => 'sermon_show',
                 'guard_name' => 'web',
             ],
             [
                 'id'    => '31',
+                'name' => 'sermon_delete',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '32',
+                'name' => 'sermon_publish',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '33',
                 'name' => 'sermon_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '34',
+                'name' => 'category_create',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '35',
+                'name' => 'category_edit',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '36',
+                'name' => 'category_delete',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '37',
+                'name' => 'category_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '38',
+                'name' => 'address_create',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '39',
+                'name' => 'address_edit',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '40',
+                'name' => 'address_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '41',
+                'name' => 'donation_create',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '42',
+                'name' => 'donation_edit',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '43',
+                'name' => 'donation_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '44',
+                'name' => 'about_create',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '45',
+                'name' => 'about_edit',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '46',
+                'name' => 'about_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '47',
+                'name' => 'contact_create',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '48',
+                'name' => 'contact_edit',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '49',
+                'name' => 'contact_show',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '50',
+                'name' => 'contact_delete',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '51',
+                'name' => 'contact_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '52',
+                'name' => 'dashboard_access',
+                'guard_name' => 'web',
+            ],
+            [
+                'id'    => '53',
+                'name' => 'setting_access',
                 'guard_name' => 'web',
             ],
         ];

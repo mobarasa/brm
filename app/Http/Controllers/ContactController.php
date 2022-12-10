@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
@@ -15,6 +17,8 @@ class ContactController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('contact_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $contacts = Contact::latest()->paginate(15);
 
         return view('admin.contacts.index', compact('contacts'));
@@ -47,6 +51,8 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
+        abort_if(Gate::denies('contact_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('admin.contacts.show', compact('contact'));
     }
 
@@ -58,6 +64,8 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
+        abort_if(Gate::denies('contact_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $contact->delete();
 
         Alert::toast('Message as been deleted!','success');

@@ -10,11 +10,7 @@
                         <a href="{{ route('events.index') }}">Back</a>
                     </div>
                 </div>
-                @if ($event->upload_image)
-                    <img src="{{ asset('storage/uploads/events/' . $event->upload_image) }}" class="img-responsive" style="width:100%; height:auto;" />
-                @else
-                    <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" style="width:100%; height:auto;" />
-                @endif
+                <img src="{{ asset($event->image_exist ? 'storage/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>

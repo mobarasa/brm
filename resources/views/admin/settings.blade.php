@@ -6,41 +6,47 @@
     <div class="col-md-12">
        <section class="dash-main-widget-box">
           <div class="row">
+             @can('address_access')
              <div class="col-sm-3 si-box-padding">
-                <a href="{{ route('address.index') }}">
-                    <div class="dash-box">
-                        <h2><i class="fa-regular fa-gear"></i></h2>
-                        <p>Address</p>
-                     </div>
-                </a>
-                <!-- end of dash-box -->
-             </div>
+               <a href="{{ route('address.index') }}">
+                   <div class="dash-box">
+                       <h2><i class="fa-regular fa-gear"></i></h2>
+                       <p>Address</p>
+                    </div>
+               </a>
+               <!-- end of dash-box -->
+            </div>
+             @endcan
+             <!-- end of si-box-padding -->
+             @can('donation_access')
+             <div class="col-sm-3 si-box-padding">
+               <a href="{{ route('donations.index') }}">
+                   <div class="dash-box">
+                       <h2><i class="fa-regular fa-circle-dollar-to-slot"></i></h2>
+                       <p>Donation</p>
+                    </div>
+               </a>
+               <!-- end of dash-box -->
+            </div>
+             @endcan
+             <!-- end of si-box-padding -->
+             @can('about_access')
+             <div class="col-sm-3 si-box-padding">
+               <a href="{{ route('about.index') }}">
+                   <div class="dash-box">
+                       <h2><i class="fa-regular fa-book-open-reader"></i></h2>
+                       <p>About</p>
+                    </div>
+               </a>
+               <!-- end of dash-box -->
+            </div>
+             @endcan
              <!-- end of si-box-padding -->
              <div class="col-sm-3 si-box-padding">
-                <a href="{{ route('donations.index') }}">
-                    <div class="dash-box">
-                        <h2><i class="fa-regular fa-circle-dollar-to-slot"></i></h2>
-                        <p>Donation</p>
-                     </div>
-                </a>
-                <!-- end of dash-box -->
-             </div>
-             <!-- end of si-box-padding -->
-             <div class="col-sm-3 si-box-padding">
-                <a href="{{ route('about.index') }}">
-                    <div class="dash-box">
-                        <h2><i class="fa-regular fa-book-open-reader"></i></h2>
-                        <p>About</p>
-                     </div>
-                </a>
-                <!-- end of dash-box -->
-             </div>
-             <!-- end of si-box-padding -->
-             <div class="col-sm-3 si-box-padding">
-                <div class="dash-box">
+                {{-- <div class="dash-box">
                    <h2>35</h2>
                    <p>New Users</p>
-                </div>
+                </div> --}}
                 <!-- end of dash-box -->
              </div>
              <!-- end of si-box-padding -->

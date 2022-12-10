@@ -5,7 +5,9 @@
         <div class="border-table">
             <div class="table-head clearfix">
                 <p class="pull-left">Post Management</p>
+                @can('post_create')
                 <a href="{{ route('posts.create') }}" class="btn sm-custom-btn pull-right">Add new</a>
+                @endcan
             </div>
             <!-- end of table-head -->
             @if(count($errors) > 0)
@@ -43,15 +45,19 @@
                                 @endif
                             </td>
                             <td class="action-center action-td">
+                                @can('post_edit')
                                 <a class="btn btn-xs btn-info" href="{{ route('posts.edit', $post->id) }}">
                                     Edit
                                 </a>
+                                @endcan
+                                @can('post_delete')
                                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
                                     onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                   <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                              </form>
+                                </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
@@ -66,7 +72,7 @@
             <!-- end of table-responsive -->
         </div>
         <!-- end of border-table -->
-        {!! $posts->links() !!}
+        {!! $posts->links('layouts.partials.backpagination') !!}
         <!-- end of pagination -->
     </section>
 @endsection

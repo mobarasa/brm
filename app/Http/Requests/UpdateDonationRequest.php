@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateDonationRequest extends FormRequest
@@ -13,6 +15,8 @@ class UpdateDonationRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('donation_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return true;
     }
 
@@ -24,7 +28,7 @@ class UpdateDonationRequest extends FormRequest
     public function rules()
     {
         return [
-            'content'      => 'required'
+            'content'   => 'required'
         ];
     }
 }

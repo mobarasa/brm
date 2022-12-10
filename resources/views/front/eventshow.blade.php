@@ -26,11 +26,7 @@
             <div class="row">
                 <div class="col">
                     <div class="blog_image">
-                    @if ($event->upload_image)
-                        <img src="{{ asset('storage/uploads/events/' . $event->upload_image) }}" class="img-responsive" />
-                    @else
-                        <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" />
-                    @endif
+                    <img src="{{ asset($event->image_exist ? 'storage/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                     </div>
 
                     <div

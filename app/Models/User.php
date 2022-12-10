@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Sermon::class);
     }
+
+    public function getImageExistAttribute()
+    {
+        return !is_null($this->upload_image) && file_exists(public_path('storage/users/'.$this->upload_image));
+    }
 }

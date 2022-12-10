@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAboutRequest extends FormRequest
@@ -13,6 +15,8 @@ class StoreAboutRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('about_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return true;
     }
 
@@ -24,8 +28,8 @@ class StoreAboutRequest extends FormRequest
     public function rules()
     {
         return [
-            'content'      => 'required',
-            'upload_image'     => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'content'       => 'required',
+            'upload_image'  => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ];
     }
 }

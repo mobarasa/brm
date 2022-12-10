@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
@@ -17,7 +19,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::latest()->whereNotIn('name', ['Sysadmin'])->paginate(12);
+        abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $roles = Role::latest()->whereNotIn('name', ['Super-Admin'])->paginate(12);
 
         return view('admin.roles.index', compact('roles'));
     }
@@ -29,6 +33,8 @@ class RoleController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $permissions = Permission::all()->pluck('name', 'id');
 
         return view('admin.roles.create', compact('permissions'));
@@ -59,6 +65,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $permissions = Permission::all()->pluck('name', 'id');
 
         $role->load('permissions');
@@ -92,6 +100,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($role->users()->count()) {
             return back()->withErrors('Cannot delete, role has linked data.!');
         }

@@ -37,11 +37,7 @@
                     <div class="col-xl-4 col-lg-6 news_post_col">
                         <div class="news_post">
                             <div class="news_image">
-                                @if ($post->upload_image)
-                                <img src="{{ asset('storage/uploads/posts/' . $post->upload_image) }}" class="img-responsive" alt="" />
-                                @else
-                                <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" alt="" />
-                                @endif
+                                <img src="{{ asset($post->image_exist ? 'storage/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
                             </div>
                             <div class="news_post_content">
                                 <div class="news_post_title">

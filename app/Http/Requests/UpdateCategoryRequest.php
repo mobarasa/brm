@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCategoryRequest extends FormRequest
@@ -13,6 +15,8 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return true;
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
@@ -12,6 +14,8 @@ class AddressController extends Controller
 {
     public function index(Request $request)
     {
+        abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $address = Address::all();
 
         return view('admin.address.index', compact('address'));
@@ -19,6 +23,8 @@ class AddressController extends Controller
 
     public function create()
     {
+        abort_if(Gate::denies('address_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $count = Address::count();
         if ($count == 0) {
             return view('admin.address.create');
@@ -47,6 +53,8 @@ class AddressController extends Controller
 
     public function edit(Address $address)
     {
+        abort_if(Gate::denies('address_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('admin.address.edit', compact('address'));
     }
 

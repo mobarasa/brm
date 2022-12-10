@@ -17,7 +17,6 @@ class PermissionRoleSeeder extends Seeder
     public function run()
     {
         $admin_permissions = Permission::all();
-        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
         Role::findOrFail(2)->permissions()->sync($admin_permissions->pluck('id'));
         $user_permissions = $admin_permissions->filter(function ($permission) {
             return substr($permission->name, 0, 5) != 'user_'

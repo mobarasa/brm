@@ -28,7 +28,7 @@ class StoreSubscribeRequest extends FormRequest
         return [
             'email'    => [
                 'required',
-                'email',
+                'email:rfc,dns',
                 Rule::unique(Subscribe::class)
             ],
         ];

@@ -10,22 +10,22 @@
                         <a href="{{ route('settings') }}">Back</a>
                         @if (count($about))
                         @foreach ($about as $item)
-                        <a href="{{ route('about.edit', $item->id) }}">Edit</a>
+                        @can('about_edit')
+                            <a href="{{ route('about.edit', $item->id) }}">Edit</a>
+                        @endcan
                         @endforeach
                         @else
-                        <a href="{{ route('about.create') }}">Create</a>
+                        @can('about_create')
+                            <a href="{{ route('about.create') }}">Create</a>
+                        @endcan
                         @endif
                     </div>
                 </div>
 
-                <div class="main_policy_wrapper">
+                {{-- <div class="main_policy_wrapper"> --}}
                     @forelse ($about as $item)
                     <div>
-                        @if ($item->upload_image)
-                        <img src="{{ asset('storage/uploads/abouts/' . $item->upload_image) }}" class="img-responsive" style="width:100%; height:auto;" />
-                        @else
-                        <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" style="width:100%; height:auto;" />
-                        @endif
+                        <img src="{{ asset($item->image_exist ? 'storage/abouts/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                     </div>
                     <div style="margin-top: 20px;">
                         {!! nl2br($item->content) !!}
@@ -35,7 +35,7 @@
                         <strong>Take note!</strong> In this area, there are no church history to list.
                     </div>
                     @endforelse
-                 </div>
+                 {{-- </div> --}}
             </div>
             <!-- end of col-md-12 -->
         </div>

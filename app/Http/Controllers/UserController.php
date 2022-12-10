@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -9,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Image;
 
 class UserController extends Controller
 {
@@ -19,6 +22,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $users = User::latest()->paginate(12);
 
         return view('admin.users.index', compact('users'));
@@ -31,7 +36,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::whereNotIn('name', ['Sysadmin'])->pluck('name', 'id');
+        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $roles = Role::whereNotIn('name', ['Super-Admin'])->pluck('name', 'id');
 
         return view('admin.users.create', compact('roles'));
     }
@@ -46,7 +53,14 @@ class UserController extends Controller
     {
         if ($request->has('upload_image')) {
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/users', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/users', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/users/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(360, 360, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $user = User::create([
@@ -76,7 +90,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $roles = Role::whereNotIn('name', ['Sysadmin'])->pluck('name', 'id');
+        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $roles = Role::whereNotIn('name', ['Super-Admin'])->pluck('name', 'id');
 
         $user->load('roles');
 
@@ -91,7 +107,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::whereNotIn('name', ['Sysadmin'])->pluck('name', 'id');
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $roles = Role::whereNotIn('name', ['Super-Admin'])->pluck('name', 'id');
 
         $user->load('roles');
 
@@ -108,10 +126,17 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/uploads/users/' . $user->upload_image);
+            Storage::delete('public/users/' . $user->upload_image);
 
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/users', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/users', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/users/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(360, 360, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $user->update([
@@ -141,8 +166,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($user->upload_image) {
-            Storage::delete('public/uploads/users/' . $user->upload_image);
+            Storage::delete('public/users/' . $user->upload_image);
             $user->upload_image = null;
         }
 

@@ -5,7 +5,9 @@
     <div class="border-table">
         <div class="table-head clearfix">
             <p class="pull-left">Role Management</p>
+            @can('role_create')
             <a href="{{ route('roles.create') }}" class="btn sm-custom-btn pull-right">Add new</a>
+            @endcan
         </div>
         @if ($errors->any())
             <div class="error-message" id='hideMe'>
@@ -35,15 +37,19 @@
                         <td>{{ ucwords(str_replace('_', ' ', $role->name)) }}</td>
                         <td>{{ $role->guard_name }}</td>
                         <td class="action-center action-td">
+                            @can('role_edit')
                             <a class="btn btn-xs btn-info" href="{{ route('roles.edit', $role->id) }}">
                                 Edit
                             </a>
+                            @endcan
+                            @can('role_delete')
                             <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                               <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                           </form>
+                            @endcan
                         </td>
                     </tr>
                     @empty
@@ -58,7 +64,7 @@
         <!-- end of table-responsive -->
     </div>
     <!-- end of border-table -->
-    {!! $roles->links() !!}
+    {!! $roles->links('layouts.partials.backpagination') !!}
     <!-- end of pagination -->
 </section>
 @endsection

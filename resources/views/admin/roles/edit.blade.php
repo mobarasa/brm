@@ -11,7 +11,7 @@
                 <a href="{{ route('roles.index') }}">Back</a>
              </div>
           </div>
-          <form action="{{ route('roles.update', $role) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+          <form action="{{ route('roles.update', $role) }}" method="POST" autocomplete="off">
              @csrf
              @method('PUT')
              <div class="organization-form">

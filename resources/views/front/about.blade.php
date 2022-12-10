@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col">
                     <div class="section_title_container text-center">
-                        <div class="section_title">welcome to Believers Revival Mission</div>
+                        <div class="section_title">About Believers Revival Mission</div>
                         <div class="section_subtitle">
                             It's the start of an amazing journey of faith
                         </div>
@@ -72,11 +72,13 @@
                 <div class="col-lg-4 team_col">
                     <div class="team_item">
                         <div class="team_image">
-                            @if ($item->upload_image)
-                                <img src="{{ asset('storage/uploads/users/' . $item->upload_image) }}" class="img-responsive" alt="" style="height:360px;" />
+                            {{-- @if ($item->upload_image)
+                                <img src="{{ asset($item->upload_image) }}" class="img-responsive" alt="" style="height:360px;" />
                             @else
-                                <img src="{{ asset('storage/uploads/no_avatar.png') }}" class="img-responsive" alt="" style="height:360px;" />
-                            @endif
+                                <img src="{{ asset('uploads/no_avatar.png') }}" class="img-responsive" alt="" style="height:360px;" />
+                            @endif --}}
+                            <img src="{{ asset($item->image_exist ? 'storage/users/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="height:360px;" >
+
                             <div class="team_overlay d-flex flex-column align-items-center justify-content-end text-center trans_200">
                                 <div class="team_overlay_text">
                                     <p>

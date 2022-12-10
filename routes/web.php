@@ -45,12 +45,12 @@ Route::post('contact', [ContactController::class, 'store'])->name('contact.store
 Auth::routes(['register'=>false]);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::get('settings', [SettingController::class, 'index'])->name('settings');
+    Route::get('profile', ProfileController::class)->name('profile');
     Route::resource('subscriber', SubscribeController::class)->only(['index', 'destroy']);
     Route::resource('contact', ContactController::class)->only(['index', 'show', 'destroy']);
-    Route::resource('profile', ProfileController::class)->only('index', 'update');
     Route::resource('address', AddressController::class);
     Route::resource('donations', DonationController::class);
     Route::resource('about', AboutController::class);

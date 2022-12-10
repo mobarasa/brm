@@ -9,6 +9,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'BRM') }} | {{ __('Portal') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/icon.png') }}" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <!-- fontawesom css -->

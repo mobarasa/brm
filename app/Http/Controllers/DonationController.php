@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\StoreDonationRequest;
 use App\Http\Requests\UpdateDonationRequest;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -16,6 +18,8 @@ class DonationController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('donation_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $donate = Donation::all();
         return view('admin.donation.index', compact('donate'));
     }
@@ -27,6 +31,8 @@ class DonationController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('donation_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $count = Donation::count();
         if ($count == 0) {
             return view('admin.donation.create');
@@ -60,6 +66,8 @@ class DonationController extends Controller
      */
     public function edit(Donation $donation)
     {
+        abort_if(Gate::denies('donation_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('admin.donation.edit', compact('donation'));
     }
 

@@ -11,7 +11,7 @@
                 <a href="{{ route('roles.index') }}">Back</a>
              </div>
           </div>
-          <form action="{{ route('roles.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+          <form action="{{ route('roles.store') }}" method="POST" autocomplete="off">
              @csrf
              <div class="organization-form">
                  <div class="row">

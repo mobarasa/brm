@@ -50,18 +50,20 @@
                      </div>
                  </div>
                  <!-- end of col-md-4 -->
+                 @can('post_publish')
                  <div class="col-md-12">
-                     <div class="input-wrapper-sm">
-                         <label>Publish</label>
-                         <select name="published" id="published" required>
-                            <option value="yes" {{old('published',$post->published)=="yes" ? 'selected':''}}>Yes</option>
-                            <option value="no" {{old('published',$post->published)=="no" ? 'selected':''}}>No</option>
-                        </select>
-                         @error('published')
-                             <small class="text-danger">{{ $message }}</small>
-                         @enderror
-                     </div>
-                 </div>
+                    <div class="input-wrapper-sm">
+                        <label>Publish</label>
+                        <select name="published" id="published" required>
+                           <option value="yes" {{old('published',$post->published)=="yes" ? 'selected':''}}>Yes</option>
+                           <option value="no" {{old('published',$post->published)=="no" ? 'selected':''}}>No</option>
+                       </select>
+                        @error('published')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                 @endcan
                  <!-- end of col-md-4 -->
                  <div class="col-md-12">
                      <div class="input-wrapper-sm">

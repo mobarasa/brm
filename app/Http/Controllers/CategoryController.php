@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -17,6 +19,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::latest()->paginate(12);
 
         return view('admin.categories.index', compact('categories'));
@@ -29,6 +33,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('admin.categories.create');
     }
 
@@ -58,6 +64,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -88,6 +96,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($category->posts()->count()) {
             return back()->withErrors('Cannot delete, category has linked data.!');
         }

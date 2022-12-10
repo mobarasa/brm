@@ -70,6 +70,7 @@
                                 </div>
                             </div>
                             <!-- end of col-md-4 -->
+                            @can('event_publish')
                             <div class="col-md-6">
                                 <div class="input-wrapper-sm">
                                     <label>Publish</label>
@@ -83,6 +84,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            @endcan
                             <!-- end of col-md-4 -->
                             <div class="col-md-12">
                                 <div class="input-wrapper-sm">

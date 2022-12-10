@@ -30,16 +30,12 @@
             <div class="row about_row">
                 @forelse ($about as $item)
                 <div class="col-lg-6">
-                    @if ($item->upload_image)
-                    <img src="{{ asset('storage/uploads/abouts/' . $item->upload_image) }}" class="img-responsive" alt="" style="width:555px; height:auto;"/>
-                    @else
-                    <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" alt="" style="width:555px; height:auto;"/>
-                    @endif
+                    <img src="{{ asset($item->image_exist ? 'storage/abouts/'.$item->upload_image : 'storage/default/no_image.jpg') }}" alt="" style="width:555px; height:auto;">
                 </div>
                 <div class="col-lg-6">
                     <div class="about_content">
                         <div class="about_text">
-                            {!! $item->content !!}
+                            {!! Str::limit($item->content, $limit = 620, $end = '...') !!}
                         </div>
                         <div class="button about_button"><a href="{{ route('page.about') }}">read story</a></div>
                     </div>
@@ -68,11 +64,7 @@
                 @forelse ($sermons as $item)
                 <div class="col-lg-4 sermon_col">
                     <div class="card">
-                        @if ($item->upload_image)
-                        <img src="{{ asset('storage/uploads/sermons/' . $item->upload_image) }}" class="card-img-top" alt="" style="height:260px;"/>
-                        @else
-                        <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="card-img-top" alt="" style="height:260px;"/>
-                        @endif
+                        <img src="{{ asset($item->image_exist ? 'storage/sermons/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
                         <div class="card-body text-center">
                             <div class="card-title sermon_title">
                                 <a href="{!! route('page.sermonshow', $item->slug) !!}">{!! Str::limit($item->title, $limit = 30, $end = '...') !!}</a>
@@ -137,11 +129,7 @@
             @forelse ($events as $item)
             <div class="events_item">
                 <div class="events_item_image">
-                    @if ($item->upload_image)
-                    <img src="{{ asset('storage/uploads/events/' . $item->upload_image) }}" class="img-responsive" alt="" style="height:260px;" />
-                    @else
-                        <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" alt="" style="height:260px;" />
-                    @endif
+                    <img src="{{ asset($item->image_exist ? 'storage/events/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt=""  style="height:260px;">
                 </div>
                 <div class="events_item_content d-flex flex-row align-items-start justfy-content-start">
                     <div class="event_date d-flex flex-column align-items-center justify-content-center">
@@ -191,11 +179,7 @@
                 <div class="col-xl-4 col-lg-6 news_post_col">
                     <div class="news_post">
                         <div class="news_image">
-                            @if ($item->upload_image)
-                            <img src="{{ asset('storage/uploads/posts/' . $item->upload_image) }}" class="img-responsive" alt="" style="height:260px;" />
-                            @else
-                            <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" alt="" style="height:260px;" />
-                            @endif
+                            <img src="{{ asset($item->image_exist ? 'storage/posts/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
                         </div>
                         <div class="news_post_content">
                             <div class="news_post_title">

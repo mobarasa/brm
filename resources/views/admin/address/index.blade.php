@@ -10,10 +10,14 @@
                     <a href="{{ route('settings') }}">Back</a>
                     @if (count($address))
                     @foreach ($address as $item)
+                    @can('address_edit')
                     <a href="{{ route('address.edit', $item->id) }}">Edit</a>
+                    @endcan
                     @endforeach
                     @else
+                    @can('address_create')
                     <a href="{{ route('address.create') }}">Create</a>
+                    @endcan
                     @endif
                 </div>
             </div>

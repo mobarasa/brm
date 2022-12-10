@@ -37,4 +37,9 @@ class Event extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getImageExistAttribute()
+    {
+        return !is_null($this->upload_image) && file_exists(public_path('storage/events/'.$this->upload_image));
+    }
 }

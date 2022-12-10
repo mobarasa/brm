@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAddressRequest extends FormRequest
@@ -13,6 +15,8 @@ class StoreAddressRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('address_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return true;
     }
 
@@ -24,7 +28,10 @@ class StoreAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'website'   => ['required'],
+            'email'     => ['required', 'email:rfc,dns'],
+            'phone'     => ['required', 'numeric'],
+            'address'   => ['required'],
         ];
     }
 }

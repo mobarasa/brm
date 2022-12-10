@@ -3,25 +3,29 @@
     <div class="mission_item text-center">
         <div class="mission_icon"><i class="fa-light fa-bell" aria-hidden="true"></i></div>
         <div class="mission_title">our mission</div>
-        <div class="mission_text">Lorem ipsum dolor amet, consectet adipiscing doelit. Sed a mauri
-            suscipita utrum arcu , gravida nisl. Interdum mante ipsum.</div>
+        <div class="mission_text">
+            To deepen the worship to experience, educate and to inspire participation that opens people to God both in church and in the larger community to the fulfilment of the great commission.
+        </div>
     </div>
     <div class="mission_item text-center">
         <div class="mission_icon"><i class="fa-light fa-flag" aria-hidden="true"></i></div>
         <div class="mission_title">our community</div>
-        <div class="mission_text">Lorem ipsum dolor amet, consectet adipiscing doelit. Sed a mauri
-            suscipita utrum arcu , gravida nisl. Interdum mante ipsum.</div>
+        <div class="mission_text">
+            We are a community open to God as we sustain a critical examination of Scriptures, belief and ritual under the revelation of the Holy Ghost and affirm our origin in the sonship of God through Christ Jesus ( 1 Peter 2:9)
+        </div>
     </div>
     <div class="mission_item text-center">
         <div class="mission_icon"><i class="fa-light fa-heart" aria-hidden="true"></i></div>
         <div class="mission_title">our belief</div>
-        <div class="mission_text">Lorem ipsum dolor amet, consectet adipiscing doelit. Sed a mauri
-            suscipita utrum arcu , gravida nisl. Interdum mante ipsum.</div>
+        <div class="mission_text">
+            we are drawn to service and to live out our commission to be the feet and hands of God according to his will and preach the gospel (Mark 16:15)
+        </div>
     </div>
     <div class="mission_item text-center">
         <div class="mission_icon"><i class="fa-light fa-moon" aria-hidden="true"></i></div>
         <div class="mission_title">our faith</div>
-        <div class="mission_text">Lorem ipsum dolor amet, consectet adipiscing doelit. Sed a mauri
-            suscipita utrum arcu , gravida nisl. Interdum mante ipsum.</div>
+        <div class="mission_text">
+            We echo the vision of our founder Rev Julius Abungana who was convicted to pursue the Lord' calling building the a church without borders and open to all anchored on divine fruits and gifts of Holy ghost for God's glory.
+        </div>
     </div>
 </div>

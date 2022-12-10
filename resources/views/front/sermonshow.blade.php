@@ -26,13 +26,8 @@
             <div class="row">
                 <div class="col">
                     <div class="blog_image">
-                    @if ($sermon->upload_image)
-                        <img src="{{ asset('storage/uploads/sermons/' . $sermon->upload_image) }}" class="img-responsive" />
-                    @else
-                        <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" />
-                    @endif
+                    <img src="{{ asset($sermon->image_exist ? 'storage/sermons/'.$sermon->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                     </div>
-
                     <div
                         class="blog_post_title_container d-flex flex-row align-items-lg-center align-items-start justify-content-start">
                         <div class="blog_post_date">

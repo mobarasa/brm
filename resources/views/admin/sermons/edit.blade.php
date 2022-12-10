@@ -80,18 +80,20 @@
                             </div>
                         </div>
                         <!-- end of col-md-4 -->
-                        <div class="col-md-6">
-                            <div class="input-wrapper-sm">
-                                <label>Publish</label>
-                                <select name="published" id="published" required>
-                                    <option value="yes" {{old('published',$sermon->published)=="yes" ? 'selected':''}}>Yes</option>
-                                    <option value="no" {{old('published',$sermon->published)=="no" ? 'selected':''}}>No</option>
-                                </select>
-                                @error('published')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
+                       @can('sermon_publish')
+                       <div class="col-md-6">
+                        <div class="input-wrapper-sm">
+                            <label>Publish</label>
+                            <select name="published" id="published" required>
+                                <option value="yes" {{old('published',$sermon->published)=="yes" ? 'selected':''}}>Yes</option>
+                                <option value="no" {{old('published',$sermon->published)=="no" ? 'selected':''}}>No</option>
+                            </select>
+                            @error('published')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+                    </div>
+                       @endcan
                         <!-- end of col-md-4 -->
                         <div class="col-md-12">
                             <div class="input-wrapper-sm">

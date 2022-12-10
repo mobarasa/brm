@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -9,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Post;
+use Image;
 
 class PostController extends Controller
 {
@@ -19,6 +22,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $posts = Post::latest()->with('category')->paginate(12);
 
         return view('admin.posts.index', compact('posts'));
@@ -31,6 +36,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('post_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.posts.create', compact('categories'));
@@ -46,7 +53,14 @@ class PostController extends Controller
     {
         if ($request->has('upload_image')) {
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/posts', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/posts', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/posts/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $post = auth()->user()->posts()->create([
@@ -58,7 +72,7 @@ class PostController extends Controller
             'category_id' => $request->category_id
         ]);
 
-        Alert::toast('Post as been submited!','success');
+        Alert::toast('Post has been submited!','success');
 
         return redirect()->route('posts.index');
     }
@@ -71,6 +85,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        abort_if(Gate::denies('post_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.posts.show', compact('post', 'categories'));
@@ -84,6 +100,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        abort_if(Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.posts.edit', compact('post', 'categories'));
@@ -99,10 +117,17 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/uploads/posts/' . $post->upload_image);
+            Storage::delete('public/posts/' . $post->upload_image);
 
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/posts', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/posts', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/posts/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $post->update([
@@ -114,7 +139,7 @@ class PostController extends Controller
             'category_id' => $request->category_id
         ]);
 
-        Alert::toast('Post as been updated!','success');
+        Alert::toast('Post has been updated!','success');
 
         return redirect()->route('posts.index');
     }
@@ -127,8 +152,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        abort_if(Gate::denies('post_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($post->upload_image) {
-            Storage::delete('public/uploads/posts/' . $post->upload_image);
+            Storage::delete('public/posts/' . $post->upload_image);
             $post->upload_image = null;
         }
 

@@ -38,7 +38,7 @@
         <!-- end of table-responsive -->
     </div>
     <!-- end of border-table -->
-    {!! $permissions->links() !!}
+    {!! $permissions->links('layouts.partials.backpagination') !!}
     <!-- end of pagination -->
 </section>
 @endsection

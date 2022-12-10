@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\StoreAboutRequest;
 use App\Http\Requests\UpdateAboutRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Storage;
 use App\Models\About;
+use Image;
 
 class AboutController extends Controller
 {
@@ -17,6 +20,8 @@ class AboutController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('about_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $about = About::all();
 
         return view('admin.about.index', compact('about'));
@@ -29,6 +34,8 @@ class AboutController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('about_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $count = About::count();
         if ($count == 0) {
             return view('admin.about.create');
@@ -47,7 +54,14 @@ class AboutController extends Controller
     {
         if ($request->has('upload_image')) {
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/abouts', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/abouts', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/abouts/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         About::create([
@@ -68,6 +82,8 @@ class AboutController extends Controller
      */
     public function edit(About $about)
     {
+        abort_if(Gate::denies('about_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('admin.about.edit', compact('about'));
     }
 
@@ -81,10 +97,17 @@ class AboutController extends Controller
     public function update(UpdateAboutRequest $request, About $about)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/uploads/abouts/' . $about->upload_image);
+            Storage::delete('public/abouts/' . $about->upload_image);
 
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/abouts', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/abouts', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/abouts/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $about->update([

@@ -9,13 +9,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'BRM') }} | {{ __('Portal') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/icon.png') }}" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <!-- fontawesom css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/all.min.css') }}">
     <!-- mCustomScrollbar css -->
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('assets/plugins/mCustomScrollbar/jquery.mCustomScrollbar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/mCustomScrollbar/jquery.mCustomScrollbar.css') }}">
     <!-- data table -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/jquery.dataTables.min.css') }}">
     <!-- custom style css -->
@@ -27,6 +27,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
     <!-- Demo styles -->
+    @livewireStyles
     @stack('style')
 </head>
 
@@ -96,6 +97,7 @@
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <!-- Custom js -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    @livewireScripts
     @stack('script')
 </body>
 

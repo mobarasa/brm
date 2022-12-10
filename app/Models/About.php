@@ -12,4 +12,9 @@ class About extends Model
     protected $table = 'abouts';
 
     protected $fillable = ['content', 'upload_image'];
+
+    public function getImageExistAttribute()
+    {
+        return !is_null($this->upload_image) && file_exists(public_path('storage/abouts/'.$this->upload_image));
+    }
 }

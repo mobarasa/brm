@@ -9,6 +9,7 @@
     <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/icon.png') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('fronts/styles/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('fronts/plugins/font-awesome/css/all.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('fronts/styles/colorbox.css') }}">

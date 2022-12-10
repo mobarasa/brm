@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreSermonRequest;
 use App\Http\Requests\UpdateSermonRequest;
@@ -9,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Sermon;
+use Image;
 
 class SermonController extends Controller
 {
@@ -19,6 +22,8 @@ class SermonController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('sermon_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $sermons = Sermon::latest()->paginate(12);
 
         return view('admin.sermons.index', compact('sermons'));
@@ -31,6 +36,8 @@ class SermonController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('sermon_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.sermons.create', compact('categories'));
@@ -46,7 +53,14 @@ class SermonController extends Controller
     {
         if ($request->has('upload_image')) {
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/sermons', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/sermons', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/sermons/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $sermon = auth()->user()->sermons()->create([
@@ -76,6 +90,8 @@ class SermonController extends Controller
      */
     public function show(Sermon $sermon)
     {
+        abort_if(Gate::denies('sermon_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.sermons.show', compact('sermon', 'categories'));
@@ -89,6 +105,8 @@ class SermonController extends Controller
      */
     public function edit(Sermon $sermon)
     {
+        abort_if(Gate::denies('sermon_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $categories = Category::all()->sortBy('name')->pluck('name', 'id');
 
         return view('admin.sermons.edit', compact('sermon', 'categories'));
@@ -104,10 +122,17 @@ class SermonController extends Controller
     public function update(UpdateSermonRequest $request, Sermon $sermon)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/uploads/sermons/' . $sermon->upload_image);
+            Storage::delete('public/sermons/' . $sermon->upload_image);
 
             $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('uploads/sermons', $filename, 'public');
+            $request->file('upload_image')->storeAs('public/sermons', $filename);
+
+            //Resize image here
+            $resizeimagepath = public_path('storage/sermons/'.$filename);
+            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($resizeimagepath);
         }
 
         $sermon->update([
@@ -137,8 +162,10 @@ class SermonController extends Controller
      */
     public function destroy(Sermon $sermon)
     {
+        abort_if(Gate::denies('sermon_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($sermon->upload_image) {
-            Storage::delete('public/uploads/sermons/' . $sermon->upload_image);
+            Storage::delete('public/sermons/' . $sermon->upload_image);
             $sermon->upload_image = null;
         }
 

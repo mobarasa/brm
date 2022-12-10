@@ -10,15 +10,19 @@
                         <a href="{{ route('settings') }}">Back</a>
                         @if (count($donate))
                         @foreach ($donate as $item)
+                        @can('donation_edit')
                         <a href="{{ route('donations.edit', $item->id) }}">Edit</a>
+                        @endcan
                         @endforeach
                         @else
+                        @can('donation_create')
                         <a href="{{ route('donations.create') }}">Create</a>
+                        @endcan
                         @endif
                     </div>
                 </div>
 
-                <div class="main_policy_wrapper">
+                {{-- <div class="main_policy_wrapper"> --}}
                     @forelse ($donate as $item)
                         {!! $item->content !!}
                     @empty
@@ -26,7 +30,7 @@
                         <strong>Take note!</strong> In this area, there are no donation guidelines to list.
                     </div>
                     @endforelse
-                 </div>
+                 {{-- </div> --}}
             </div>
             <!-- end of col-md-12 -->
         </div>

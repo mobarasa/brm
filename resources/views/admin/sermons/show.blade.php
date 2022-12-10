@@ -10,11 +10,7 @@
                         <a href="{{ route('sermons.index') }}">Back</a>
                     </div>
                 </div>
-                @if ($sermon->upload_image)
-                    <img src="{{ asset('storage/uploads/sermons/' . $sermon->upload_image) }}" class="img-responsive" style="width:100%; height:auto;" />
-                @else
-                    <img src="{{ asset('storage/uploads/no_image.jpg') }}" class="img-responsive" style="width:100%; height:auto;" />
-                @endif
+                <img src="{{ asset($sermon->image_exist ? 'storage/sermons/'.$sermon->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>

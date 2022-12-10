@@ -5,7 +5,9 @@
     <div class="border-table">
         <div class="table-head clearfix">
             <p class="pull-left">Event Management</p>
+            @can('event_create')
             <a href="{{ route('events.create') }}" class="btn sm-custom-btn pull-right">Add new</a>
+            @endcan
         </div>
         <!-- end of table-head -->
         @if(count($errors) > 0)
@@ -45,15 +47,19 @@
                             @endif
                         </td>
                         <td class="action-center action-td">
+                            @can('event_edit')
                             <a class="btn btn-xs btn-info" href="{{ route('events.edit', $event->id) }}">
                                 Edit
                             </a>
+                            @endcan
+                            @can('event_delete')
                             <form action="{{ route('events.destroy', $event->id) }}" method="POST"
                                 onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                               <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                           </form>
+                            @endcan
                         </td>
                     </tr>
                     @empty
@@ -68,7 +74,7 @@
         <!-- end of table-responsive -->
     </div>
     <!-- end of border-table -->
-    {!! $events->links() !!}
+    {!! $events->links('layouts.partials.backpagination') !!}
     <!-- end of pagination -->
 </section>
 @endsection

@@ -5,7 +5,9 @@
         <div class="border-table">
             <div class="table-head clearfix">
                 <p class="pull-left">Categories Management</p>
+                @can('category_create')
                 <a href="{{ route('categories.create') }}" class="btn sm-custom-btn pull-right">Add new</a>
+                @endcan
             </div>
             @if ($errors->any())
                 <div class="error-message" id='hideMe'>
@@ -33,15 +35,19 @@
                             <td>{{ ++$i }}</td>
                             <td>{{ $category->name }}</td>
                             <td class="action-center action-td">
+                                @can('category_edit')
                                 <a class="btn btn-xs btn-info" href="{{ route('categories.edit', $category->id) }}">
                                     Edit
                                 </a>
+                                @endcan
+                                @can('category_delete')
                                 <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
                                     onsubmit="return confirm('Are you sure?');" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                   <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                              </form>
+                                </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
@@ -56,7 +62,7 @@
             <!-- end of table-responsive -->
         </div>
         <!-- end of border-table -->
-        {!! $categories->links() !!}
+        {!! $categories->links('layouts.partials.backpagination') !!}
         <!-- end of pagination -->
     </section>
 @endsection
