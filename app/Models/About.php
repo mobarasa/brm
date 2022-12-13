@@ -15,6 +15,6 @@ class About extends Model
 
     public function getImageExistAttribute()
     {
-        return !is_null($this->upload_image) && file_exists(public_path('storage/abouts/'.$this->upload_image));
+        return !is_null($this->upload_image) && file_exists(storage_path('app/public/images/abouts/'.$this->upload_image));
     }
 }

@@ -25,7 +25,7 @@
                 {{-- <div class="main_policy_wrapper"> --}}
                     @forelse ($about as $item)
                     <div>
-                        <img src="{{ asset($item->image_exist ? 'storage/abouts/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
+                        <img src="{{ asset($item->image_exist ? 'storage/images/abouts/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                     </div>
                     <div style="margin-top: 20px;">
                         {!! nl2br($item->content) !!}

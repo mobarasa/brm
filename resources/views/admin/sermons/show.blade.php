@@ -10,7 +10,7 @@
                         <a href="{{ route('sermons.index') }}">Back</a>
                     </div>
                 </div>
-                <img src="{{ asset($sermon->image_exist ? 'storage/sermons/'.$sermon->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
+                <img src="{{ asset($sermon->image_exist ? 'storage/images/sermons/'.$sermon->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>

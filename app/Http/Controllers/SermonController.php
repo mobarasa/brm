@@ -51,16 +51,14 @@ class SermonController extends Controller
      */
     public function store(StoreSermonRequest $request)
     {
-        if ($request->has('upload_image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/sermons', $filename);
+        if (!is_dir(storage_path("app/public/images/sermons"))) {
+            mkdir(storage_path("app/public/images/sermons"), 0775, true);
+        }
 
-            //Resize image here
-            $resizeimagepath = public_path('storage/sermons/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+        if ($request->hasFile('upload_image')) {
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(1140, 487)->save( storage_path('app/public/images/sermons/' . $filename) );
         }
 
         $sermon = auth()->user()->sermons()->create([
@@ -122,17 +120,11 @@ class SermonController extends Controller
     public function update(UpdateSermonRequest $request, Sermon $sermon)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/sermons/' . $sermon->upload_image);
+            Storage::delete('public/images/sermons/' . $sermon->upload_image);
 
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/sermons', $filename);
-
-            //Resize image here
-            $resizeimagepath = public_path('storage/sermons/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(1140, 487)->save( storage_path('app/public/images/sermons/' . $filename) );
         }
 
         $sermon->update([
@@ -165,7 +157,7 @@ class SermonController extends Controller
         abort_if(Gate::denies('sermon_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($sermon->upload_image) {
-            Storage::delete('public/sermons/' . $sermon->upload_image);
+            Storage::delete('public/images/sermons/' . $sermon->upload_image);
             $sermon->upload_image = null;
         }
 

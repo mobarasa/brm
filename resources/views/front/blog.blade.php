@@ -37,7 +37,7 @@
                     <div class="col-xl-4 col-lg-6 news_post_col">
                         <div class="news_post">
                             <div class="news_image">
-                                <img src="{{ asset($post->image_exist ? 'storage/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
+                                <img src="{{ asset($post->image_exist ? 'storage/images/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
                             </div>
                             <div class="news_post_content">
                                 <div class="news_post_title">

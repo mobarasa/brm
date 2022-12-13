@@ -25,7 +25,7 @@
         <div class="mission_icon"><i class="fa-light fa-moon" aria-hidden="true"></i></div>
         <div class="mission_title">our faith</div>
         <div class="mission_text">
-            We echo the vision of our founder Rev Julius Abungana who was convicted to pursue the Lord' calling building the a church without borders and open to all anchored on divine fruits and gifts of Holy ghost for God's glory.
+            We echo the vision of our founder Rev Julius Abungana who was convicted to pursue the Lord' calling building of the church without borders and open to all anchored on divine fruits and gifts of Holy ghost for God's glory.
         </div>
     </div>
 </div>

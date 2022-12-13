@@ -51,16 +51,14 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if ($request->has('upload_image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/users', $filename);
+        if (!is_dir(storage_path("app/public/images/users"))) {
+            mkdir(storage_path("app/public/images/users"), 0775, true);
+        }
 
-            //Resize image here
-            $resizeimagepath = public_path('storage/users/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(360, 360, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+        if ($request->hasFile('upload_image')) {
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(360, 360)->save( storage_path('app/public/images/users/' . $filename) );
         }
 
         $user = User::create([
@@ -126,17 +124,11 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/users/' . $user->upload_image);
+            Storage::delete('public/images/users/' . $user->upload_image);
 
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/users', $filename);
-
-            //Resize image here
-            $resizeimagepath = public_path('storage/users/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(360, 360, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(360, 360)->save( storage_path('app/public/images/users/' . $filename) );
         }
 
         $user->update([
@@ -169,7 +161,7 @@ class UserController extends Controller
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($user->upload_image) {
-            Storage::delete('public/users/' . $user->upload_image);
+            Storage::delete('public/images/users/' . $user->upload_image);
             $user->upload_image = null;
         }
 

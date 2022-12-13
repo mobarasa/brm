@@ -39,7 +39,7 @@
                                 <div class="event_day">{{ $sermon->date_preached->format('j') }}</div>
                                 <div class="event_month">{{ $sermon->date_preached->format('M') }}</div>
                             </div>
-                            <img src="{{ asset($sermon->image_exist ? 'storage/sermons/'.$sermon->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
+                            <img src="{{ asset($sermon->image_exist ? 'storage/images/sermons/'.$sermon->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="width:360px; height:262px;">
                             <div class="card-body text-center">
                                 <div class="card-title sermon_title">
                                     <a href="{!! route('page.sermonshow', $sermon->slug) !!}">{!! Str::limit($sermon->title, $limit = 30, $end = '...') !!}</a>

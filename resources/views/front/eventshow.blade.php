@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col">
                     <div class="blog_image">
-                    <img src="{{ asset($event->image_exist ? 'storage/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
+                    <img src="{{ asset($event->image_exist ? 'storage/images/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                     </div>
 
                     <div

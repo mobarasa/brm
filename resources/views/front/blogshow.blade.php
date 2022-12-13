@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col">
                     <div class="blog_image">
-                    <img src="{{ asset($post->image_exist ? 'storage/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
+                    <img src="{{ asset($post->image_exist ? 'storage/images/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                     </div>
                     <div
                         class="blog_post_title_container d-flex flex-row align-items-lg-center align-items-start justify-content-start">

@@ -38,7 +38,7 @@
             @forelse ($events as $event)
             <div class="events_item">
                 <div class="events_item_image">
-                <img src="{{ asset($event->image_exist ? 'storage/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt=""  style="height:260px;">
+                <img src="{{ asset($event->image_exist ? 'storage/images/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt=""  style="height:260px;">
                 </div>
                 <div class="events_item_content d-flex flex-row align-items-start justfy-content-start">
                     <div class="event_date">

@@ -10,7 +10,7 @@
                         <a href="{{ route('events.index') }}">Back</a>
                     </div>
                 </div>
-                <img src="{{ asset($event->image_exist ? 'storage/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
+                <img src="{{ asset($event->image_exist ? 'storage/images/events/'.$event->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>

@@ -10,7 +10,7 @@
                         <a href="{{ route('posts.index') }}">Back</a>
                     </div>
                 </div>
-                <img src="{{ asset($post->image_exist ? 'storage/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
+                <img src="{{ asset($post->image_exist ? 'storage/images/posts/'.$post->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="">
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <tbody>

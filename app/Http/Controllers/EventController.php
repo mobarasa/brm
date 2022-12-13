@@ -51,16 +51,14 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        if ($request->has('upload_image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/events', $filename);
+        if (!is_dir(storage_path("app/public/images/events"))) {
+            mkdir(storage_path("app/public/images/events"), 0775, true);
+        }
 
-            //Resize image here
-            $resizeimagepath = public_path('storage/events/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+        if ($request->hasFile('upload_image')) {
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(1140, 487)->save( storage_path('app/public/images/events/' . $filename) );
         }
 
         $post = auth()->user()->events()->create([
@@ -121,17 +119,11 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/events/' . $event->upload_image);
+            Storage::delete('public/images/events/' . $event->upload_image);
 
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/events', $filename);
-
-            //Resize image here
-            $resizeimagepath = public_path('storage/events/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(1140, 487)->save( storage_path('app/public/images/events/' . $filename) );
         }
 
         $event->update([
@@ -163,7 +155,7 @@ class EventController extends Controller
         abort_if(Gate::denies('event_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($event->upload_image) {
-            Storage::delete('public/events/' . $event->upload_image);
+            Storage::delete('public/images/events/' . $event->upload_image);
             $event->upload_image = null;
         }
 

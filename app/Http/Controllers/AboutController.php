@@ -52,16 +52,18 @@ class AboutController extends Controller
      */
     public function store(StoreAboutRequest $request)
     {
-        if ($request->has('upload_image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/abouts', $filename);
+        if (!is_dir(storage_path("app/public/images/abouts"))) {
+            mkdir(storage_path("app/public/images/abouts"), 0775, true);
+        }
 
-            //Resize image here
-            $resizeimagepath = public_path('storage/abouts/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+        if ($request->hasFile('upload_image')) {
+            $file = $request->file('upload_image');
+
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            Image::make($file)->resize(555, 360, function ($constraint) {
                 $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+            })->save( storage_path('app/public/images/abouts/' . $filename) );
         }
 
         About::create([
@@ -97,17 +99,13 @@ class AboutController extends Controller
     public function update(UpdateAboutRequest $request, About $about)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/abouts/' . $about->upload_image);
+            Storage::delete('public/images/abouts/' . $about->upload_image);
 
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/abouts', $filename);
-
-            //Resize image here
-            $resizeimagepath = public_path('storage/abouts/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(555, 360, function ($constraint) {
                 $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+            })->save( storage_path('app/public/images/abouts/' . $filename) );
         }
 
         $about->update([

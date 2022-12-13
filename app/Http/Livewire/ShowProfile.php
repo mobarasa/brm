@@ -19,9 +19,7 @@ class ShowProfile extends Component
     public $gender;
     public $email;
     public $phone_number;
-    public $upload_image;
     public $content;
-    public $newimage;
 
     public function mount()
     {
@@ -29,7 +27,6 @@ class ShowProfile extends Component
         $this->gender = auth()->user()->gender;
         $this->email = auth()->user()->email;
         $this->phone_number = auth()->user()->phone_number;
-        $this->upload_image = auth()->user()->upload_image;
         $this->content = auth()->user()->content;
     }
 
@@ -40,12 +37,6 @@ class ShowProfile extends Component
             'email' => ['required','email:rfc,dns', 'string', Rule::unique('users')->ignore(Auth::user()->id)],
             'phone_number' => ['required', 'numeric', Rule::unique('users')->ignore(Auth::user()->id)],
         ];
-        if($this->newimage)
-        {
-            $this->validate([
-                'newimage' => 'required|mimes:jpeg,png'
-            ]);
-        }
     }
 
     public function updated($propertyName)
@@ -68,28 +59,6 @@ class ShowProfile extends Component
         $user->email = $this->email;
         $user->phone_number = $this->phone_number;
         $user->content = $this->content;
-
-        if($this->newimage)
-        {
-            Storage::delete('public/users/' . $user->upload_image);
-
-
-            $filename = time() . '_' . uniqid() . '.'  . $this->newimage->extension();
-
-
-            $this->newimage->storeAs('public/users', $filename);
-
-            //Resize image here
-            $resizeimagepath = public_path('storage/users/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(360, 360, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
-
-
-            $user->upload_image = $filename;
-
-        }
 
         $user->save();
         session()->flash('text_success','Profile has been updated successfully!');

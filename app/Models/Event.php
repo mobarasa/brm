@@ -40,6 +40,6 @@ class Event extends Model
 
     public function getImageExistAttribute()
     {
-        return !is_null($this->upload_image) && file_exists(public_path('storage/events/'.$this->upload_image));
+        return !is_null($this->upload_image) && file_exists(storage_path('app/public/images/events/'.$this->upload_image));
     }
 }

@@ -56,21 +56,6 @@
                 </div>
                 <!-- end of col-md-4 -->
                 <div class="col-md-12">
-                    <div class="input-wrapper-sm">
-                        <label>Profile Image</label>
-                        <input type="file" name="upload_image" id="upload_image" wire:model="newimage">
-                        @if ($newimage)
-                            <img src="{{ $newimage->temporaryUrl() }}" width="100" height="100" />
-                        @else
-                            <img src="{{ asset(Auth::user()->image_exist ? 'storage/users/'.Auth::user()->upload_image : 'storage/default/no_avatar.png') }}" class="img-responsive" alt="" width="100" height="100">
-                        @endif
-                        @error('upload_image')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <!-- end of col-md-4 -->
-                <div class="col-md-12">
                     <div class="input-wrapper-sm" wire:ignore>
                         <label>Profile Description</label>
                         <textarea rows="3" name="content" id="content" wire:model="content"></textarea>

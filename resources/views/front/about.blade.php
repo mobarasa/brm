@@ -72,13 +72,7 @@
                 <div class="col-lg-4 team_col">
                     <div class="team_item">
                         <div class="team_image">
-                            {{-- @if ($item->upload_image)
-                                <img src="{{ asset($item->upload_image) }}" class="img-responsive" alt="" style="height:360px;" />
-                            @else
-                                <img src="{{ asset('uploads/no_avatar.png') }}" class="img-responsive" alt="" style="height:360px;" />
-                            @endif --}}
-                            <img src="{{ asset($item->image_exist ? 'storage/users/'.$item->upload_image : 'storage/default/no_image.jpg') }}" class="img-responsive" alt="" style="height:360px;" >
-
+                            <img src="{{ asset($item->image_exist ? 'storage/images/users/'.$item->upload_image : 'storage/default/no_avatar.png') }}" class="img-responsive" alt="" style="height:360px;">
                             <div class="team_overlay d-flex flex-column align-items-center justify-content-end text-center trans_200">
                                 <div class="team_overlay_text">
                                     <p>

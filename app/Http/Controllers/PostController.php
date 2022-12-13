@@ -51,16 +51,14 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        if ($request->has('upload_image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/posts', $filename);
+        if (!is_dir(storage_path("app/public/images/posts"))) {
+            mkdir(storage_path("app/public/images/posts"), 0775, true);
+        }
 
-            //Resize image here
-            $resizeimagepath = public_path('storage/posts/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
+        if ($request->hasFile('upload_image')) {
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(1140, 487)->save( storage_path('app/public/images/posts/' . $filename) );
         }
 
         $post = auth()->user()->posts()->create([
@@ -117,17 +115,12 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         if ($request->has('upload_image')) {
-            Storage::delete('public/posts/' . $post->upload_image);
+            Storage::delete('public/images/posts/' . $post->upload_image);
 
-            $filename = time() . '_' . uniqid() . '.' . $request->file('upload_image')->getClientOriginalExtension();
-            $request->file('upload_image')->storeAs('public/posts', $filename);
+            $file = $request->file('upload_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            Image::make($file)->resize(1140, 487)->save( storage_path('app/public/images/posts/' . $filename) );
 
-            //Resize image here
-            $resizeimagepath = public_path('storage/posts/'.$filename);
-            $img = Image::make($resizeimagepath)->resize(1130, null, function($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($resizeimagepath);
         }
 
         $post->update([
@@ -155,7 +148,7 @@ class PostController extends Controller
         abort_if(Gate::denies('post_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($post->upload_image) {
-            Storage::delete('public/posts/' . $post->upload_image);
+            Storage::delete('public/images/posts/' . $post->upload_image);
             $post->upload_image = null;
         }
 

@@ -60,7 +60,13 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->phone_number }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->created_at }}</td>
+                            <td>
+                                @if ($user->published != 'yes')
+                                <div class="inactive">No</div>
+                                @else
+                                <div class="active">Yes</div>
+                                @endif
+                                </td>
                          </tr>
                           @empty
                             <tr>
